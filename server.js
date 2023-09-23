@@ -465,6 +465,10 @@ bot.command('endconversation', async (ctx) => {
     ctx.reply("Щоб завершити розмову, її потрібно почати");
       return;
   }
+  if(authorizedUserIds.includes(chatId)){
+    ctx.reply("Адмін не може закінчити розмову");
+      return;
+  }
   ongoingReports.delete(chatId);
   
   // Notify admins that the user ended the conversation
