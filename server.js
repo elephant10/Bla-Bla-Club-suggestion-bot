@@ -66,7 +66,6 @@ function addMessageMapping(userId, userMessageId, adminUserId, adminMessageId) {
 
 function getUserNameById (userid){
   const fs = require('fs');
-  //console.log("WE ARE HERE BECAUSE WE ARE HERE")
   const data = fs.readFileSync('users.json', 'utf8')
   
     // Parse the JSON string into an array of objects
@@ -74,7 +73,6 @@ function getUserNameById (userid){
     // Search for an object with user id 777 in the array
     const obj = arr.find((o) => "" + o.userID == "" + userid);
     // If the object is found, log it
-   // console.log(obj);
     if (obj) {
      return  obj.first_name + " " + obj.second_name + " " + (obj.tag != "" ? "@" + obj.tag : "") + " " + obj.userID
     } else {
@@ -113,7 +111,7 @@ bot.command('connect', (ctx) => {
     if (authorizedUserIds.includes(ctx.from.id)) {
       // Check if authorized user has replied to a specific message
       const repliedMessageId = ctx.message.reply_to_message?.message_id;
-      console.log("116 line    "  + repliedMessageId)
+
       if (repliedMessageId) {
         // Send the response to the user who reported the problem
         const messageId = ongoingReports.get(chatId);
@@ -210,11 +208,11 @@ bot.command('connect', (ctx) => {
         const adminId = authorizedUserIds[i];
         let messageFromUser;
         if (forwardedMessage) {
-            console.log("forward")
+     //       console.log("forward")
             bot.telegram.sendMessage(adminId, reportMessage );
             messageFromUser = await ctx.forwardMessage(adminId, ctx.from.id, ctx.message.message_id);
         } else if (media) {
-            console.log("media")
+    //        console.log("media")
             let caption = ctx.message.caption ? reportMessage + ctx.message.caption : reportMessage;
 
             if (ctx.message.photo || ctx.message.video || ctx.message.document){
@@ -231,7 +229,7 @@ bot.command('connect', (ctx) => {
                 messageFromUser =  await bot.telegram.sendAnimation(adminId, ctx.message.animation.file_id, { caption: caption });
             }
         } else {
-            console.log("text")
+    //        console.log("text")
 
             messageFromUser = await bot.telegram.sendMessage(adminId, reportMessage + ` ${text}`);
         }
@@ -320,10 +318,8 @@ bot.start((ctx) => {
     // Search for an object with user id 777 in the array
     const obj = arr.find((o) => o.userID === userId);
     // If the object is found, log it
-    if (obj) {
-      console.log(`Object with user id ${userId} already in userData :`);
-    } else {
-      // If not, create a new object with user id 777 and any other properties you want
+    if (!obj) {
+          // If not, create a new object with user id 777 and any other properties you want
       const userData = {
         userID: ctx.from.id,
         first_name: firstName,
@@ -491,7 +487,7 @@ bot.command('ban', async (ctx) => {
   }
 
 // Parse the user ID from the message text
-console.log("461 line "  + ctx.message.text);
+console.log( ctx.message.text);
 let userId = parseInt(ctx.message.text.split(' ')[1]);
 if (!userId) {
   // Ask the admin to provide a valid user ID
