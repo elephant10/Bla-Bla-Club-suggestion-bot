@@ -13,7 +13,7 @@ try {
 const bot = new Telegraf(apiKey)
 
 const authorizedUserIds = [
-  497250936, 444462593 
+  497250936, 444462593, 840235265 
 ]; // Array of authorized user IDs
 
 // let conversationEnded = true;
